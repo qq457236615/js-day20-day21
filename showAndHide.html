@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+    <style>
+        select {
+            display: none;
+        }
+		.show {
+			display: block;
+		}
+    </style>
+</head>
+<body>            
+    <label>
+        <input id="school" name="status" type="radio">
+        School
+    </label>
+    <label>
+        <input id="company" name="status" type="radio">
+        Company
+    </label>
+
+    <select id="school-select">        
+        <option>北京邮电大学</option>
+        <option>黑龙江大学</option>
+        <option>华中科技大学</option>
+    </select>
+
+    <select id="company-select">        
+        <option>百度</option>
+        <option>爱奇艺</option>        
+    </select>
+</body>
+    <script>
+		function addClass(element,value){
+			if (!element.className) {
+				element.className = value;
+			}
+			else {
+				newClassName = element.className;
+				newClassName += (" " + value);
+				element.className = newClassName;
+			}
+		}
+		var school = document.getElementById("school");
+		var company = document.getElementById("company");
+		var schoolSelect = document.getElementById("school-select");
+		var companySelect = document.getElementById("company-select");
+		school.addEventListener("click", function(){
+			addClass(companySelect, "show");
+			schoolSelect.removeAttribute("class", "show");
+		})
+		company.addEventListener("click", function(){
+			addClass(schoolSelect, "show");
+			companySelect.removeAttribute("class", "show");
+		})
+	</script>
+</html>

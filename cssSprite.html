@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>CSS-SPRITE</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	#smail-box {
+		width: 480px;
+		height: 480px;
+		margin: 0 auto;
+		
+		background: url(img/erik_ce204002.jpg) no-repeat center center;
+		background-position: 0 0;
+	}
+	</style>
+</head>
+<body>
+    <div id="smail-box"></div>	
+	<script>
+	(function(){
+	    var smailBox = document.getElementById("smail-box");
+		var targetPosY = 0;
+		var startPosY = 0;
+		var endPosY = -7680;
+		var isReturn = false;
+		setInterval(function(){
+			smailBox.style.backgroundPositionY = targetPosY + "px";
+			
+			if (!isReturn) {
+				targetPosY -= 480;
+				if (targetPosY <= endPosY) {
+					isReturn = true;
+				}
+			}
+			else {
+				targetPosY += 480;
+				if (targetPosY >=0) {
+					isReturn = false;
+				}
+			}
+		}, 100)
+	})();
+	</script>
+</body>
+</html>

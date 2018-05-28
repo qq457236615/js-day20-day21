@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>IEF SCRIPT</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div id="fade-obj" style="width:300px;height:300px;background:#000"></div>
+	<button id="fade-btn">淡出</button>
+	<script>
+	// 经过测试,setInterval的最小时间间隔大概为10ms;
+	/*
+		setInterval实现定时功能
+	*/
+	function fadeOutWithInterval(element, time, target, callBack){
+		time *= 100;
+		var elementOpacity = element.style.opacity;
+		var speed = elementOpacity / time;
+		var intervalID = setInterval(function(){
+			if (element.style.opacity <= 0) {
+				callBack(target);
+				clearInterval(intervalID);
+			}
+			else {
+				element.style.opacity -= speed;
+			}
+		}, 10);
+	}
+	
+	function fadeInWithInterval(element, time, target, callBack){
+		time *= 100;
+		var speed = 1 / time;
+		var intervalID = setInterval(function(){
+			if (element.style.opacity >= 1) {
+				callBack(target);
+				clearInterval(intervalID);
+			}
+			else {
+				element.style.opacity = element.style.opacity / 1 + speed;
+			}
+		}, 10);
+	}
+	
+	
+	/*
+		setTimeout实现定时功能
+	*/
+	function fadeOutWithTimeout(element, time, target, callBack){
+		time *= 100;
+		var elementOpacity = element.style.opacity;
+		var speed = elementOpacity / time;
+		var timeoutID;
+		function fadeOut(){
+			if (element.style.opacity <= 0) {
+				callBack(target);
+				clearTimeout(timeoutID);
+			}
+			else {
+				element.style.opacity -= speed;
+				timeoutID = setTimeout(fadeOut, 10);
+			}
+		}
+		fadeOut();
+	}
+	
+	function fadeInWithTimeout(element, time, target, callBack){
+		time *= 100;
+		var speed = 1 / time;
+		var timeoutID;
+		function fadeIn(){
+			if (element.style.opacity >= 1) {
+				callBack(target);
+				clearTimeout(timeoutID);
+			}
+			else {
+				element.style.opacity = element.style.opacity / 1 + speed;
+				timeoutID = setTimeout(fadeIn, 10);
+			}
+		}
+		fadeIn();
+	}
+	
+	(function(){
+		var fadeBtn = document.getElementById("fade-btn");
+		var fadeObj = document.getElementById("fade-obj");
+		fadeBtn.addEventListener("click", function(e){
+			if (!fadeObj.style.opacity) {
+				fadeObj.style.opacity = 1;
+			}
+			if(fadeObj.style.opacity > 0) {
+				this.setAttribute("disabled", "disabled");
+				fadeOutWithTimeout(fadeObj, 0.5, this, function(target){
+					target.removeAttribute("disabled");
+					target.innerHTML = "淡入"
+				});
+			}
+			else {
+				this.setAttribute("disabled", "disabled");
+				fadeInWithTimeout(fadeObj, 0.5, this, function(target){
+					target.removeAttribute("disabled");
+					target.innerHTML = "淡出";
+				});
+			}
+		});
+	})();
+	</script>
+</body>
+</html>
